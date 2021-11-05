@@ -1,15 +1,25 @@
 import sqlite3
-import hashlib
-import os
+import sys
+
+from PyQt5 import uic
+from PyQt5.QtWidgets import QApplication
+from PyQt5.QtWidgets import QMainWindow, QTableWidgetItem
 
 
-def pass_hashing(passw):
-    """Функция конвертирует полученный пароль в хеш для хранения в базе данных"""
-    salt = os.urandom(32)
-    key = hashlib.pbkdf2_hmac(
-        'sha256',  # Используемый алгоритм хеширования
-        passw.encode('utf-8'),  # Конвертируется пароль в байты
-        salt,  # Предоставляется соль
-        100000  # 100000 итераций SHA-256
-    )
-    return salt, key
+class MainUI(QMainWindow):
+    def __init__(self):
+        super().__init__()
+        uic.loadUi('UI/main.ui', self)  # Загружаем дизайн
+        # Обратите внимание: имя элемента такое же как в QTDesigner
+        self.AddBook.clicked.connect(self.AddBook)
+
+    def AddBook(self):
+        pass
+        # Имя элемента совпадает с objectName в QTDesigner
+
+
+if __name__ == '__main__':
+    app = QApplication(sys.argv)
+    ex = MainUI()
+    ex.show()
+    sys.exit(app.exec_())
