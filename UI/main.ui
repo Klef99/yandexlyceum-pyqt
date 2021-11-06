@@ -32,13 +32,13 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>10</y>
-      <width>177</width>
-      <height>42</height>
+      <y>0</y>
+      <width>374</width>
+      <height>61</height>
      </rect>
     </property>
-    <layout class="QHBoxLayout" name="horizontalLayout">
-     <item>
+    <layout class="QGridLayout" name="gridLayout">
+     <item row="1" column="1">
       <widget class="QPushButton" name="AddBook">
        <property name="text">
         <string/>
@@ -55,7 +55,61 @@
        </property>
       </widget>
      </item>
-     <item>
+     <item row="2" column="1">
+      <widget class="QLabel" name="AddBookLabel">
+       <property name="text">
+        <string>Добавить книгу</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="0">
+      <widget class="QLabel" name="LoginLabel">
+       <property name="text">
+        <string>   Войти</string>
+       </property>
+       <property name="textFormat">
+        <enum>Qt::AutoText</enum>
+       </property>
+       <property name="scaledContents">
+        <bool>false</bool>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="0">
+      <widget class="QPushButton" name="Login">
+       <property name="text">
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset>
+         <normaloff>../../../Downloads/login-button-svgrepo-com.svg</normaloff>../../../Downloads/login-button-svgrepo-com.svg</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>32</width>
+         <height>32</height>
+        </size>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="3">
+      <widget class="QPushButton" name="AddTag">
+       <property name="text">
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset>
+         <normaloff>../../../Downloads/addtag.png</normaloff>../../../Downloads/addtag.png</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>32</width>
+         <height>32</height>
+        </size>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="2">
       <widget class="QPushButton" name="RemoveBook">
        <property name="text">
         <string/>
@@ -72,20 +126,41 @@
        </property>
       </widget>
      </item>
-     <item>
-      <widget class="QPushButton" name="AddTag">
+     <item row="2" column="3">
+      <widget class="QLabel" name="AddTagLabel">
+       <property name="text">
+        <string>Добавить метку</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="2">
+      <widget class="QLabel" name="RemoveBookLabel">
+       <property name="text">
+        <string>Убрать книгу</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="4">
+      <widget class="QPushButton" name="RemoveTag">
        <property name="text">
         <string/>
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>../../../Downloads/addtag.png</normaloff>../../../Downloads/addtag.png</iconset>
+         <normaloff>../../../Downloads/remove-tag-64x64.png</normaloff>../../../Downloads/remove-tag-64x64.png</iconset>
        </property>
        <property name="iconSize">
         <size>
          <width>32</width>
          <height>32</height>
         </size>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="4">
+      <widget class="QLabel" name="RemoveTagLabel">
+       <property name="text">
+        <string>Убрать метку</string>
        </property>
       </widget>
      </item>
