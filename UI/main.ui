@@ -18,32 +18,14 @@
     <normaloff>../../../Downloads/Books_icon-icons.com_76879.png</normaloff>../../../Downloads/Books_icon-icons.com_76879.png</iconset>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QTableWidget" name="BookList">
+   <widget class="QTableView" name="BookList">
     <property name="geometry">
      <rect>
       <x>10</x>
       <y>70</y>
-      <width>621</width>
+      <width>671</width>
       <height>471</height>
      </rect>
-    </property>
-   </widget>
-   <widget class="QLabel" name="auth">
-    <property name="geometry">
-     <rect>
-      <x>780</x>
-      <y>0</y>
-      <width>171</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>12</pointsize>
-     </font>
-    </property>
-    <property name="text">
-     <string>Вы не авторизованны</string>
     </property>
    </widget>
    <widget class="QWidget" name="">
