@@ -15,6 +15,13 @@ class DatabaseHandler:
         self.connection = sqlite3.connect(self.database)
         # Создание курсора
         self.cur = self.connection.cursor()
+        # Подключим базу с помощью встроенного в Qt обработчика
+        # Зададим тип базы данных
+        self.QtDB = QSqlDatabase.addDatabase('QSQLITE')
+        # Укажем имя базы данных
+        self.QtDB.setDatabaseName(self.database)
+        # И откроем подключение
+        self.QtDB.open()
 
     def pass_to_hash(self, password):
         """Функция конвертирует полученный пароль в хеш для хранения в базе данных"""
@@ -59,7 +66,7 @@ class DatabaseHandler:
     def register(self, login, password):
         if self.user_in_db(login):
             raise UserExists
-        if len(login) <= 4:
+        if len(login) < 4:
             raise ShortLogin
         if login and password:
             key, salt = self.pass_to_hash(password)
@@ -67,6 +74,7 @@ class DatabaseHandler:
             self.connection.commit()
         else:
             raise WrongLogin
+        os.mkdir(f'UserBooks/{login}')
         return True
 
 
