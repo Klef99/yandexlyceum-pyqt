@@ -12,3 +12,15 @@ class UserExists(Exception):
 
 class ShortLogin(Exception):
     pass
+
+
+class WrongTag(Exception):
+    pass
+
+
+class TagExists(Exception):
+    pass
+
+
+class DontLogin(Exception):
+    pass

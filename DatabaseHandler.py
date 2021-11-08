@@ -1,11 +1,9 @@
-import sqlite3
 import hashlib
 import os
-
-from PyQt5.QtSql import QSqlDatabase, QSqlTableModel
-from PyQt5.QtWidgets import QWidget, QTableView, QApplication
+import sqlite3
 
 from CustomExceptions import WrongLogin, WrongPassword, UserExists, ShortLogin
+from PyQt5.QtSql import QSqlDatabase
 
 
 class DatabaseHandler:
@@ -16,12 +14,9 @@ class DatabaseHandler:
         # Создание курсора
         self.cur = self.connection.cursor()
         # Подключим базу с помощью встроенного в Qt обработчика
-        # Зададим тип базы данных
-        self.QtDB = QSqlDatabase.addDatabase('QSQLITE')
-        # Укажем имя базы данных
-        self.QtDB.setDatabaseName(self.database)
-        # И откроем подключение
-        self.QtDB.open()
+        self.QtDB = QSqlDatabase.addDatabase('QSQLITE')  # Зададим тип базы данных
+        self.QtDB.setDatabaseName(self.database)  # Укажем имя базы данных
+        self.QtDB.open()  # И откроем подключение
 
     def pass_to_hash(self, password):
         """Функция конвертирует полученный пароль в хеш для хранения в базе данных"""
@@ -58,6 +53,12 @@ class DatabaseHandler:
     def get_user_id(self, username):
         return self.cur.execute('''SELECT userID FROM users WHERE name == ?''', (username,)).fetchone()[0]
 
+    def get_book_id(self, userID, bookName):
+        uid = self.cur.execute(
+            """SELECT bookID from books WHERE userID == ? AND bookName like ?""",
+            (userID, bookName,)).fetchall()[0][0]
+        return uid
+
     def user_in_db(self, login):
         if len(self.cur.execute("""SELECT name FROM users WHERE name == ?""", (login,)).fetchall()) != 0:
             return True
@@ -77,7 +78,25 @@ class DatabaseHandler:
         os.mkdir(f'UserBooks/{login}')
         return True
 
+    def check_tag(self, tag):
+        tags = self.cur.execute("""SELECT name FROM PRAGMA_TABLE_INFO('tags')""").fetchall()
+        if tag in [i[0] for i in tags]:
+            return True
+        return False
 
-tmp = DatabaseHandler('database.db')
-# tmp.register('test', "test")
-# print(tmp.check_login('test', 'test'))
+    def create_tag(self, tag):
+        self.cur.execute(f"""ALTER TABLE tags ADD COLUMN {tag} DEFAULT (0)""")
+
+    def add_book(self, userID, bookName, Author, description, tag, lang):
+        tmp_tag = tag.split(', ')
+        for i in tmp_tag:
+            if not self.check_tag(i):
+                self.create_tag(i)
+        self.cur.execute(
+            """INSERT INTO books(userID, bookName, Author, description, tag, lang) VALUES(?, ?, ?, ?, ?, ?)""",
+            (userID, bookName, Author, description, tag, lang,)
+        )
+        self.connection.commit()
+        bookID = self.get_book_id(userID, bookName)
+        quest_str = ', '.join(['?' for _ in range(len(tmp_tag))])
+        # self.cur.execute(f"""INSERT INTO tags({quest_str}) VALUES(1)""", (*tmp_tag,))
