@@ -33,11 +33,28 @@
      <rect>
       <x>10</x>
       <y>0</y>
-      <width>374</width>
+      <width>479</width>
       <height>61</height>
      </rect>
     </property>
     <layout class="QGridLayout" name="gridLayout">
+     <item row="1" column="4">
+      <widget class="QPushButton" name="RemoveTag">
+       <property name="text">
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset>
+         <normaloff>../../../Downloads/remove-tag-64x64.png</normaloff>../../../Downloads/remove-tag-64x64.png</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>32</width>
+         <height>32</height>
+        </size>
+       </property>
+      </widget>
+     </item>
      <item row="1" column="1">
       <widget class="QPushButton" name="AddBook">
        <property name="text">
@@ -60,6 +77,9 @@
        <property name="text">
         <string>Добавить книгу</string>
        </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
       </widget>
      </item>
      <item row="2" column="0">
@@ -72,6 +92,9 @@
        </property>
        <property name="scaledContents">
         <bool>false</bool>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
        </property>
       </widget>
      </item>
@@ -126,10 +149,23 @@
        </property>
       </widget>
      </item>
+     <item row="2" column="4">
+      <widget class="QLabel" name="RemoveTagLabel">
+       <property name="text">
+        <string>Убрать метку</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+     </item>
      <item row="2" column="3">
       <widget class="QLabel" name="AddTagLabel">
        <property name="text">
         <string>Добавить метку</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
        </property>
       </widget>
      </item>
@@ -138,16 +174,19 @@
        <property name="text">
         <string>Убрать книгу</string>
        </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
       </widget>
      </item>
-     <item row="1" column="4">
-      <widget class="QPushButton" name="RemoveTag">
+     <item row="1" column="5">
+      <widget class="QPushButton" name="SortBook">
        <property name="text">
         <string/>
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>../../../Downloads/remove-tag-64x64.png</normaloff>../../../Downloads/remove-tag-64x64.png</iconset>
+         <normaloff>../../../Downloads/sorting+2-131964784836167350_0.svg</normaloff>../../../Downloads/sorting+2-131964784836167350_0.svg</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -157,10 +196,13 @@
        </property>
       </widget>
      </item>
-     <item row="2" column="4">
-      <widget class="QLabel" name="RemoveTagLabel">
+     <item row="2" column="5">
+      <widget class="QLabel" name="SortBookLabel">
        <property name="text">
-        <string>Убрать метку</string>
+        <string>Сортировать</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
        </property>
       </widget>
      </item>
