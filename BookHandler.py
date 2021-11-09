@@ -38,5 +38,5 @@ class BookHandler:
         elif self.book_format == 'pdf':
             pass
 
-tmp = BookHandler("test", "TestBooks\Alisa v Stranie chudies - L'iuis Kerroll.fb2")
-tmp.add_book()
+#tmp = BookHandler("test", "TestBooks\Alisa v Stranie chudies - L'iuis Kerroll.fb2")
+#tmp.add_book()

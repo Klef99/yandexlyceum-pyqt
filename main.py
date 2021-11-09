@@ -85,6 +85,7 @@ class CreateTagUI(QDialog):
 
     def initUI(self):
         uic.loadUi('UI/createTag.ui', self)  # Загружаем дизайн
+        self.error_dialog = QtWidgets.QErrorMessage()
         self.buttonBox.accepted.connect(self.create_tag)
         self.buttonBox.rejected.connect(self.form_quit)
 
@@ -95,19 +96,23 @@ class CreateTagUI(QDialog):
         name = self.name_text.text()
         if name == '':
             raise WrongTag
-        if self.db.check_tag():
+        if self.db.check_tag(name):
             raise TagExists
         return name
 
     def create_tag(self):
+        res = False
         try:
             self.tag = self.take_tag_name()
-            self.db.create_tag(self.tag)
+            res = self.db.create_tag(self.tag)
         except WrongTag:
-            self.status.setText('Неправильная метка')
+            self.error_dialog.showMessage('Неправильная метка')
+            self.error_dialog.exec_()
         except TagExists:
-            self.status.setText('Tакая метка уже есть')
-        self.accept()
+            self.error_dialog.showMessage('Tакая метка уже есть')
+            self.error_dialog.exec_()
+        if res:
+            self.accept()
 
 
 

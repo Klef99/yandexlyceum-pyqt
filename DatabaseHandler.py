@@ -2,7 +2,7 @@ import hashlib
 import os
 import sqlite3
 
-from CustomExceptions import WrongLogin, WrongPassword, UserExists, ShortLogin
+from CustomExceptions import *
 from PyQt5.QtSql import QSqlDatabase
 
 
@@ -86,6 +86,7 @@ class DatabaseHandler:
 
     def create_tag(self, tag):
         self.cur.execute(f"""ALTER TABLE tags ADD COLUMN {tag} DEFAULT (0)""")
+        return True
 
     def add_book(self, userID, bookName, Author, description, tag, lang):
         tmp_tag = tag.split(', ')
