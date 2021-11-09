@@ -43,7 +43,7 @@ class LoginUI(QDialog):  # Окно входа в свой аккаунт с б�
         self.reject()
 
     def open_reg_form(self):
-        self.reg_form = RegistrationUI(self, self.db)
+        self.reg_form = RegistrationUI(self.db)
         self.reg_form.show()
 
 
@@ -160,12 +160,14 @@ class DeleteBookUI(QDialog):
         self.reject()
 
     def delete_book(self):
+        res = False
         book_h = BookHandler(self.login)
         userID = self.db.get_user_id(self.login)
         self.book = self.books.currentText()
         self.path = self.db.get_book_path(userID, self.book)
-        book_h.del_book(self.path)
-        self.accept()
+        res = book_h.del_book(self.path)
+        if res:
+            self.accept()
 
 
 class MainUI(QMainWindow):
@@ -178,17 +180,22 @@ class MainUI(QMainWindow):
     def initUI(self):
         uic.loadUi('UI/main.ui', self)  # Загружаем дизайн
         self.login_form = LoginUI(self.db)
-        self.delete_book_form = DeleteBookUI(self.db, self.user_login, [])
-        #self.remove_tag_form = RemoveTagUI(self.db, self.user_login, [], [])
-        self.Login.clicked.connect(self.open_login_form)
-        self.login_form.accepted.connect(self.update_booklist)
-        #self.remove_tag_form.accepted.connect(self.update_booklist)
-        self.delete_book_form.accepted.connect(self.update_booklist)
         self.error_dialog = QtWidgets.QErrorMessage()
+        #self.remove_tag_form = RemoveTagUI(self.db, self.user_login, [], [])
+        self.initDeleteBookUI(self.db, self.user_login, [])
+        self.Login.clicked.connect(self.open_login_form)
         self.AddBook.clicked.connect(self.add_book)
-        self.RemoveBook.clicked.connect(self.delete_book)
         self.AddTag.clicked.connect(self.add_tag)
         #self.RemoveTag.clicked.connect(self.remove_tag)
+
+        self.login_form.accepted.connect(self.update_booklist)
+        #self.remove_tag_form.accepted.connect(self.update_booklist)
+
+    def initDeleteBookUI(self, db, user, books):
+        self.delete_book_form = DeleteBookUI(db, user, books)
+        self.RemoveBook.clicked.connect(self.delete_book)
+        self.delete_book_form.accepted.connect(self.update_booklist)
+
 
     def raise_error_dialog(self, msg):
         self.error_dialog.showMessage(msg)
@@ -219,7 +226,7 @@ class MainUI(QMainWindow):
         try:
             login = self.get_username()
             books = self.db.get_user_books(login)
-            self.delete_book_form = DeleteBookUI(self.db, login, books)
+            self.initDeleteBookUI(self.db, login, books)
             self.delete_book_form.show()
         except WrongLogin:
             self.raise_error_dialog('Вы не вошли в аккаунт!')

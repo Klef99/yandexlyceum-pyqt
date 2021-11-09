@@ -47,5 +47,6 @@ class BookHandler:
     def del_book(self, book_path):
         self.db.del_book(book_path)
         os.remove(book_path)
+        return True
 
 tmp = BookHandler('test')
