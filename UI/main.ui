@@ -33,28 +33,11 @@
      <rect>
       <x>10</x>
       <y>0</y>
-      <width>479</width>
+      <width>640</width>
       <height>61</height>
      </rect>
     </property>
     <layout class="QGridLayout" name="gridLayout">
-     <item row="1" column="4">
-      <widget class="QPushButton" name="RemoveTag">
-       <property name="text">
-        <string/>
-       </property>
-       <property name="icon">
-        <iconset>
-         <normaloff>../../../Downloads/remove-tag-64x64.png</normaloff>../../../Downloads/remove-tag-64x64.png</iconset>
-       </property>
-       <property name="iconSize">
-        <size>
-         <width>32</width>
-         <height>32</height>
-        </size>
-       </property>
-      </widget>
-     </item>
      <item row="1" column="1">
       <widget class="QPushButton" name="AddBook">
        <property name="text">
@@ -76,6 +59,16 @@
       <widget class="QLabel" name="AddBookLabel">
        <property name="text">
         <string>Добавить книгу</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="8">
+      <widget class="QLabel" name="ReadBookLabel">
+       <property name="text">
+        <string>Читать</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignCenter</set>
@@ -115,6 +108,60 @@
        </property>
       </widget>
      </item>
+     <item row="2" column="7">
+      <widget class="QLabel" name="SortBookLabel">
+       <property name="text">
+        <string>Сортировать</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="7">
+      <widget class="QPushButton" name="SortBook">
+       <property name="text">
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset>
+         <normaloff>../../../Downloads/sorting+2-131964784836167350_0.svg</normaloff>../../../Downloads/sorting+2-131964784836167350_0.svg</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>32</width>
+         <height>32</height>
+        </size>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="8">
+      <widget class="QPushButton" name="ReadBook">
+       <property name="text">
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset>
+         <normaloff>../../../Downloads/read-book.svg</normaloff>../../../Downloads/read-book.svg</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>32</width>
+         <height>32</height>
+        </size>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="5">
+      <widget class="QLabel" name="AddTagLable">
+       <property name="text">
+        <string>Привязать метку</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+     </item>
      <item row="1" column="3">
       <widget class="QPushButton" name="AddTag">
        <property name="text">
@@ -149,16 +196,6 @@
        </property>
       </widget>
      </item>
-     <item row="2" column="4">
-      <widget class="QLabel" name="RemoveTagLabel">
-       <property name="text">
-        <string>Убрать метку</string>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignCenter</set>
-       </property>
-      </widget>
-     </item>
      <item row="2" column="3">
       <widget class="QLabel" name="AddTagLabel">
        <property name="text">
@@ -180,13 +217,13 @@
       </widget>
      </item>
      <item row="1" column="5">
-      <widget class="QPushButton" name="SortBook">
+      <widget class="QPushButton" name="AddTagBook">
        <property name="text">
         <string/>
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>../../../Downloads/sorting+2-131964784836167350_0.svg</normaloff>../../../Downloads/sorting+2-131964784836167350_0.svg</iconset>
+         <normaloff>../../../Downloads/7400199.png</normaloff>../../../Downloads/7400199.png</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -196,10 +233,27 @@
        </property>
       </widget>
      </item>
-     <item row="2" column="5">
-      <widget class="QLabel" name="SortBookLabel">
+     <item row="1" column="6">
+      <widget class="QPushButton" name="RemoveTag">
        <property name="text">
-        <string>Сортировать</string>
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset>
+         <normaloff>../../../Downloads/5208375_bookmark_cancel_delete_favorite_remove_icon.svg</normaloff>../../../Downloads/5208375_bookmark_cancel_delete_favorite_remove_icon.svg</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>32</width>
+         <height>32</height>
+        </size>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="6">
+      <widget class="QLabel" name="RemoveTagLabel">
+       <property name="text">
+        <string>Отвязать метку</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignCenter</set>
