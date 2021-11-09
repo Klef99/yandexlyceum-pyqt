@@ -24,3 +24,7 @@ class TagExists(Exception):
 
 class DontLogin(Exception):
     pass
+
+
+class BookExists(Exception):
+    pass

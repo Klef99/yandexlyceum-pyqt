@@ -56,8 +56,10 @@ class DatabaseHandler:
     def get_book_id(self, userID, bookName):
         uid = self.cur.execute(
             """SELECT bookID from books WHERE userID == ? AND bookName like ?""",
-            (userID, bookName,)).fetchall()[0][0]
-        return uid
+            (userID, bookName,)).fetchall()
+        if uid:
+            return uid[0][0]
+        return ''
 
     def user_in_db(self, login):
         if len(self.cur.execute("""SELECT name FROM users WHERE name == ?""", (login,)).fetchall()) != 0:
@@ -88,16 +90,52 @@ class DatabaseHandler:
         self.cur.execute(f"""ALTER TABLE tags ADD COLUMN {tag} DEFAULT (0)""")
         return True
 
-    def add_book(self, userID, bookName, Author, description, tag, lang):
+    def remove_tag(self, bookID, tag):
+        self.cur.execute(f"""INSERT INTO tags({tag}) VALUES(0) WHERE BookID == ?""", (bookID))
+        self.connection.commit()
+
+    def add_book(self, userID, bookName, Author, description, tag, lang, path):
         tmp_tag = tag.split(', ')
         for i in tmp_tag:
             if not self.check_tag(i):
                 self.create_tag(i)
         self.cur.execute(
-            """INSERT INTO books(userID, bookName, Author, description, tag, lang) VALUES(?, ?, ?, ?, ?, ?)""",
-            (userID, bookName, Author, description, tag, lang,)
+            """INSERT INTO books(userID, bookName, Author, description, tag, lang, path) VALUES(?, ?, ?, ?, ?, ?, ?)""",
+            (userID, bookName, Author, description, tag, lang, path)
         )
-        self.connection.commit()
         bookID = self.get_book_id(userID, bookName)
-        quest_str = ', '.join(['?' for _ in range(len(tmp_tag))])
-        # self.cur.execute(f"""INSERT INTO tags({quest_str}) VALUES(1)""", (*tmp_tag,))
+        quest_str = ', '.join([i for i in tmp_tag])
+        self.cur.execute(f"""INSERT INTO tags({quest_str}) VALUES({', '.join(['1' for _ in range(len(tmp_tag))])})""")
+        self.connection.commit()
+
+    def del_book(self, path):
+        bookID = self.cur.execute("""SELECT bookID from books WHERE path like ?""", (path,)).fetchall()[0][0]
+        self.cur.execute(f"""DELETE FROM books WHERE bookID == {bookID}""")
+        self.cur.execute(f"""DELETE FROM tags WHERE bookID == {bookID}""")
+        self.connection.commit()
+
+    def get_user_books(self, login):
+        userID = self.get_user_id(login)
+        result = self.cur.execute("""SELECT bookName from books WHERE userID == ?""", (userID,)).fetchall()
+        result = [i[0] for i in result]
+        return result
+
+    def get_book_tags(self, login, book):
+        bookID = self.get_book_id(self.get_user_id(login), book)
+        res = self.cur.execute("""SELECT tag from books WHERE bookID == ?""", (bookID,)).fetchall()[0][0]
+        return res.split(', ')
+
+    def get_booklist_tags(self, login, books):
+        res = []
+        for i in books:
+            res.extend(self.get_book_tags(login, i))
+        return list(set(res))
+
+    def get_book_path(self, userID, title):
+        return self.cur.execute("""SELECT path from books WHERE UserID == ? AND bookName like ?""",
+                                (userID, title,)).fetchall()[0][0]
+
+
+#tmp = DatabaseHandler('database.db')
+#print(tmp.get_book_tags('test', 'Дюна'))
+#print(tmp.get_booklist_tags('test', ['Дюна', 'Алиса в Стране чудес']))
