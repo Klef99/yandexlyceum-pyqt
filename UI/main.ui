@@ -15,7 +15,7 @@
   </property>
   <property name="windowIcon">
    <iconset>
-    <normaloff>../../../Downloads/Books_icon-icons.com_76879.png</normaloff>../../../Downloads/Books_icon-icons.com_76879.png</iconset>
+    <normaloff>../res/Books_icon-icons.com_76879.png</normaloff>../res/Books_icon-icons.com_76879.png</iconset>
   </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QWidget" name="layoutWidget">
@@ -30,33 +30,6 @@
     <layout class="QVBoxLayout" name="verticalLayout_5">
      <item>
       <layout class="QGridLayout" name="gridLayout">
-       <item row="1" column="1">
-        <widget class="QPushButton" name="AddBook">
-         <property name="text">
-          <string/>
-         </property>
-         <property name="icon">
-          <iconset>
-           <normaloff>../../../Downloads/add-book_icon-icons.com_71795.png</normaloff>../../../Downloads/add-book_icon-icons.com_71795.png</iconset>
-         </property>
-         <property name="iconSize">
-          <size>
-           <width>32</width>
-           <height>32</height>
-          </size>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="1">
-        <widget class="QLabel" name="AddBookLabel">
-         <property name="text">
-          <string>Добавить книгу</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignCenter</set>
-         </property>
-        </widget>
-       </item>
        <item row="2" column="9">
         <widget class="QLabel" name="ReadBookLabel">
          <property name="text">
@@ -83,14 +56,41 @@
          </property>
         </widget>
        </item>
-       <item row="1" column="0">
-        <widget class="QPushButton" name="Login">
+       <item row="1" column="1">
+        <widget class="QPushButton" name="AddBook">
          <property name="text">
           <string/>
          </property>
          <property name="icon">
           <iconset>
-           <normaloff>../../../Downloads/login-button-svgrepo-com.svg</normaloff>../../../Downloads/login-button-svgrepo-com.svg</iconset>
+           <normaloff>../res/add-book_icon-icons.com_71795.png</normaloff>../res/add-book_icon-icons.com_71795.png</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>32</width>
+           <height>32</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="1">
+        <widget class="QLabel" name="AddBookLabel">
+         <property name="text">
+          <string>Добавить книгу</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="7">
+        <widget class="QPushButton" name="SortBook">
+         <property name="text">
+          <string/>
+         </property>
+         <property name="icon">
+          <iconset>
+           <normaloff>../res/sorting+2-131964784836167350_0.svg</normaloff>../res/sorting+2-131964784836167350_0.svg</iconset>
          </property>
          <property name="iconSize">
           <size>
@@ -110,14 +110,24 @@
          </property>
         </widget>
        </item>
-       <item row="1" column="7">
-        <widget class="QPushButton" name="SortBook">
+       <item row="2" column="5">
+        <widget class="QLabel" name="LinkTagLable">
+         <property name="text">
+          <string>Привязать метку</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="QPushButton" name="Login">
          <property name="text">
           <string/>
          </property>
          <property name="icon">
           <iconset>
-           <normaloff>../../../Downloads/sorting+2-131964784836167350_0.svg</normaloff>../../../Downloads/sorting+2-131964784836167350_0.svg</iconset>
+           <normaloff>../res/login-button-svgrepo-com.svg</normaloff>../res/login-button-svgrepo-com.svg</iconset>
          </property>
          <property name="iconSize">
           <size>
@@ -134,23 +144,13 @@
          </property>
          <property name="icon">
           <iconset>
-           <normaloff>../../../Downloads/read-book.svg</normaloff>../../../Downloads/read-book.svg</iconset>
+           <normaloff>../res/read-book.svg</normaloff>../res/read-book.svg</iconset>
          </property>
          <property name="iconSize">
           <size>
            <width>32</width>
            <height>32</height>
           </size>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="5">
-        <widget class="QLabel" name="LinkTagLable">
-         <property name="text">
-          <string>Привязать метку</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignCenter</set>
          </property>
         </widget>
        </item>
@@ -161,41 +161,7 @@
          </property>
          <property name="icon">
           <iconset>
-           <normaloff>../../../Downloads/addtag.png</normaloff>../../../Downloads/addtag.png</iconset>
-         </property>
-         <property name="iconSize">
-          <size>
-           <width>32</width>
-           <height>32</height>
-          </size>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="2">
-        <widget class="QPushButton" name="RemoveBook">
-         <property name="text">
-          <string/>
-         </property>
-         <property name="icon">
-          <iconset>
-           <normaloff>../../../Downloads/book-remove-button_icon-icons.com_71734.png</normaloff>../../../Downloads/book-remove-button_icon-icons.com_71734.png</iconset>
-         </property>
-         <property name="iconSize">
-          <size>
-           <width>32</width>
-           <height>32</height>
-          </size>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="6">
-        <widget class="QPushButton" name="RemoveTag">
-         <property name="text">
-          <string/>
-         </property>
-         <property name="icon">
-          <iconset>
-           <normaloff>../../../Downloads/5208375_bookmark_cancel_delete_favorite_remove_icon.svg</normaloff>../../../Downloads/5208375_bookmark_cancel_delete_favorite_remove_icon.svg</iconset>
+           <normaloff>../res/addtag.png</normaloff>../res/addtag.png</iconset>
          </property>
          <property name="iconSize">
           <size>
@@ -215,6 +181,23 @@
          </property>
         </widget>
        </item>
+       <item row="1" column="6">
+        <widget class="QPushButton" name="RemoveTag">
+         <property name="text">
+          <string/>
+         </property>
+         <property name="icon">
+          <iconset>
+           <normaloff>../res/5208375_bookmark_cancel_delete_favorite_remove_icon.svg</normaloff>../res/5208375_bookmark_cancel_delete_favorite_remove_icon.svg</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>32</width>
+           <height>32</height>
+          </size>
+         </property>
+        </widget>
+       </item>
        <item row="2" column="2">
         <widget class="QLabel" name="RemoveBookLabel">
          <property name="text">
@@ -225,30 +208,20 @@
          </property>
         </widget>
        </item>
-       <item row="1" column="5">
-        <widget class="QPushButton" name="LinkTag">
+       <item row="1" column="2">
+        <widget class="QPushButton" name="RemoveBook">
          <property name="text">
           <string/>
          </property>
          <property name="icon">
           <iconset>
-           <normaloff>../../../Downloads/7400199.png</normaloff>../../../Downloads/7400199.png</iconset>
+           <normaloff>../res/book-remove-button_icon-icons.com_71734.png</normaloff>../res/book-remove-button_icon-icons.com_71734.png</iconset>
          </property>
          <property name="iconSize">
           <size>
            <width>32</width>
            <height>32</height>
           </size>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="6">
-        <widget class="QLabel" name="RemoveTagLabel">
-         <property name="text">
-          <string>Отвязать метку</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignCenter</set>
          </property>
         </widget>
        </item>
@@ -259,7 +232,24 @@
          </property>
          <property name="icon">
           <iconset>
-           <normaloff>../../../Downloads/293697_refresh_icon.svg</normaloff>../../../Downloads/293697_refresh_icon.svg</iconset>
+           <normaloff>../res/293697_refresh_icon.svg</normaloff>../res/293697_refresh_icon.svg</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>32</width>
+           <height>32</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="5">
+        <widget class="QPushButton" name="LinkTag">
+         <property name="text">
+          <string/>
+         </property>
+         <property name="icon">
+          <iconset>
+           <normaloff>../res/7400199.png</normaloff>../res/7400199.png</iconset>
          </property>
          <property name="iconSize">
           <size>
@@ -273,6 +263,16 @@
         <widget class="QLabel" name="RefreshLabel">
          <property name="text">
           <string>Перегрузить</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="6">
+        <widget class="QLabel" name="RemoveTagLabel">
+         <property name="text">
+          <string>Отвязать метку</string>
          </property>
          <property name="alignment">
           <set>Qt::AlignCenter</set>

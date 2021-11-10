@@ -15,7 +15,7 @@
   </property>
   <property name="windowIcon">
    <iconset>
-    <normaloff>../../../Downloads/Books_icon-icons.com_76879.png</normaloff>../../../Downloads/Books_icon-icons.com_76879.png</iconset>
+    <normaloff>../res/Books_icon-icons.com_76879.png</normaloff>../res/Books_icon-icons.com_76879.png</iconset>
   </property>
   <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
