@@ -7,7 +7,7 @@ from CustomExceptions import *
 
 class BookHandler:
     def __init__(self, login):
-        self.support_format = ['fb2', 'epub', 'pdf']
+        self.support_format = ['fb2', 'epub']
         if login:
             self.user_login = login
         else:
@@ -41,8 +41,6 @@ class BookHandler:
                 book.lang,
                 f'UserBooks/{self.user_login}/{file_name}'
             )
-        elif book_format == 'pdf':
-            pass
         shutil.copy(book_path, f'UserBooks/{self.user_login}')
 
     def del_book(self, book_path):
@@ -50,5 +48,5 @@ class BookHandler:
         os.remove(book_path)
         return True
 
-
-tmp = BookHandler('test')
+    def open_reader(self, book_path):
+        os.startfile(os.path.abspath(book_path), 'open')

@@ -81,10 +81,15 @@ class DatabaseHandler:
         return True
 
     def check_tag(self, tag):
-        tags = self.cur.execute("""SELECT name FROM PRAGMA_TABLE_INFO('tags')""").fetchall()
-        if tag in [i[0] for i in tags]:
+        if tag in self.get_tags():
             return True
         return False
+
+    def get_tags(self):
+        tags = self.cur.execute("""SELECT name FROM PRAGMA_TABLE_INFO('tags')""").fetchall()
+        tags = [i[0] for i in tags]
+        del tags[0]
+        return tags
 
     def create_tag(self, tag):
         self.cur.execute(f"""ALTER TABLE tags ADD COLUMN {tag} DEFAULT (0)""")
@@ -123,15 +128,25 @@ class DatabaseHandler:
         result = [i[0] for i in result]
         return result
 
-    def get_book_tags(self, login, book, book_id=''):
+    def check_book_id(self, login, book, book_id=''):
         if book_id:
             book_id = book_id
         else:
             book_id = self.get_book_id(self.get_user_id(login), book)
+        return book_id
+
+    def get_book_tags(self, login, book, book_id=''):
+        book_id = self.check_book_id(login, book, book_id)
         res = self.cur.execute("""SELECT tag from books WHERE bookID == ?""", (book_id,)).fetchall()[0][0]
         if not res:
-            return ''
+            return []
         return res.split(', ')
+
+    def set_book_tags(self, login, book, tags, book_id=''):
+        book_id = self.check_book_id(login, book, book_id)
+        tags = ', '.join(tags)
+        self.cur.execute(f"""UPDATE books SET tag = '{tags}' WHERE bookID == ?""", (book_id,))
+        self.connection.commit()
 
     def get_booklist_tags(self, login, books):
         res = []
@@ -143,11 +158,20 @@ class DatabaseHandler:
         return self.cur.execute("""SELECT path from books WHERE UserID == ? AND bookName like ?""",
                                 (user_id, title,)).fetchall()[0][0]
 
-    def get_empty_tags(self, user_id, book):
-        pass
+    def get_tag_value(self, login, book, tag, book_id=''):
+        book_id = self.check_book_id(login, book, book_id)
+        return self.cur.execute(f"""SELECT {tag} FROM tags WHERE bookID == ?""", (book_id,)).fetchall()[0][0]
+
+    def link_tag(self, login, book, tag, book_id=''):
+        book_id = self.check_book_id(login, book, book_id)
+        tags = self.get_book_tags(login, book)
+        tags.append(tag)
+        self.set_book_tags(login, book, tags)
+        self.cur.execute(f"""UPDATE tags SET {tag} == 1 WHERE bookID == ?""", (book_id,))
+        self.connection.commit()
 
 
-# tmp = DatabaseHandler('database.db')
+tmp = DatabaseHandler('database.db')
 # print(tmp.get_book_tags('test', 'Дюна'))
 # print(tmp.get_booklist_tags('test', ['Дюна', 'Алиса в Стране чудес']))
 # tmp.remove_tag(20, 'child_tale')

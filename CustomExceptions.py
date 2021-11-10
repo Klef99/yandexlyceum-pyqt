@@ -33,3 +33,6 @@ class BookExists(Exception):
 class NoTags(Exception):
     pass
 
+
+class EmptyLibrary(Exception):
+    pass
