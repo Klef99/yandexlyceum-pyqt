@@ -18,7 +18,7 @@
     <normaloff>../../../Downloads/Books_icon-icons.com_76879.png</normaloff>../../../Downloads/Books_icon-icons.com_76879.png</iconset>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QWidget" name="">
+   <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
       <x>10</x>
