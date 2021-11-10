@@ -116,18 +116,55 @@ class CreateTagUI(QDialog):
 
 
 class RemoveTagUI(QDialog):
-    def __init__(self, login, database, books, tags):
+    def __init__(self, database, login, books):
         super().__init__()
         self.db = database
         self.login = login
-        self.books_list = books
-        self.tags_list = tags
+        self.books_list = self.clean_book_list(books)
+        self.initUI()
+
+    def clean_book_list(self, bookslist):
+        if self.login and bookslist:
+            for i in bookslist:
+                if self.db.get_book_tags(self.login, i) == '':
+                    del bookslist[bookslist.index(i)]
+        return bookslist
+
+    def initUI(self):
+        uic.loadUi('UI/deleteLinkTag.ui', self)  # Загружаем дизайн
+        self.BookChose.addItems(self.books_list)
+        self.buttonBox.accepted.connect(self.open_two_form)
+        self.buttonBox.rejected.connect(self.form_quit)
+
+    def initChoseTagForm(self, login, user_id, book):
+        self.chose_tag_form = RemoveTagChoseTagUI(self.db, login, user_id, book)
+        self.chose_tag_form.accepted.connect(self.accept_close_form)
+
+    def form_quit(self):
+        self.reject()
+
+    def open_two_form(self):
+        user_id = self.db.get_user_id(self.login)
+        book = self.BookChose.currentText()
+        self.initChoseTagForm(self.login, user_id, book)
+        self.chose_tag_form.show()
+
+    def accept_close_form(self):
+        self.accept()
+
+
+class RemoveTagChoseTagUI(QDialog):
+    def __init__(self, database, login, user_id, book):
+        super().__init__()
+        self.db = database
+        self.login = login
+        self.user_id = user_id
+        self.book = book
         self.initUI()
 
     def initUI(self):
-        uic.loadUi('UI/deleteTag.ui', self)  # Загружаем дизайн
-        self.tags.addItems(self.tags_list)
-        self.books.addItems(self.books_list)
+        uic.loadUi('UI/deleteLinkTag2.ui', self)  # Загружаем дизайн
+        self.tag.addItems(self.db.get_book_tags(self.login, self.book))
         self.buttonBox.accepted.connect(self.remove_tag)
         self.buttonBox.rejected.connect(self.form_quit)
 
@@ -135,10 +172,64 @@ class RemoveTagUI(QDialog):
         self.reject()
 
     def remove_tag(self):
-        userID = self.db.get_user_id(self.login)
-        self.tag = tags.currentText()
-        self.book = books.currentText()
-        self.db.remove_tag(self.db.get_book_id(userID, self.book),self.tag)
+        chose_tag = self.tag.currentText()
+        self.db.remove_tag(self.db.get_book_id(self.user_id, self.book), chose_tag)
+        self.accept()
+
+
+class LinkTagUI(QDialog):
+    def __init__(self, database, login, books):
+        super().__init__()
+        self.db = database
+        self.login = login
+        self.books_list = books
+        self.initUI()
+
+    def initUI(self):
+        uic.loadUi('UI/deleteLinkTag.ui', self)  # Загружаем дизайн
+        self.window().setWindowTitle("Привязка метки")
+        self.BookChose.addItems(self.books_list)
+        self.buttonBox.accepted.connect(self.open_two_form)
+        self.buttonBox.rejected.connect(self.form_quit)
+
+    def initChoseTagForm(self, login, user_id, book):
+        self.chose_tag_form = LinkTagChoseTag(self.db, login, user_id, book)
+        self.chose_tag_form.accepted.connect(self.accept_close_form)
+
+    def form_quit(self):
+        self.reject()
+
+    def open_two_form(self):
+        user_id = self.db.get_user_id(self.login)
+        book = self.BookChose.currentText()
+        self.initChoseBookForm(self.login, user_id, book)
+        self.chose_tag_form.show()
+
+    def accept_close_form(self):
+        self.accept()
+
+
+class LinkTagChoseTag(QDialog):
+    def __init__(self, database, login, user_id, book):
+        super().__init__()
+        self.db = database
+        self.login = login
+        self.user_id = user_id
+        self.book = book
+        self.initUI()
+
+    def initUI(self):
+        uic.loadUi('UI/deleteLinkTag2.ui', self)  # Загружаем дизайн
+        self.tag.addItems(self.db.get_book_tags(self.login, self.book))
+        self.buttonBox.accepted.connect(self.remove_tag)
+        self.buttonBox.rejected.connect(self.form_quit)
+
+    def form_quit(self):
+        self.reject()
+
+    def remove_tag(self):
+        chose_tag = self.tag.currentText()
+        self.db.remove_tag(self.db.get_book_id(self.user_id, self.book), chose_tag)
         self.accept()
 
 
@@ -162,9 +253,9 @@ class DeleteBookUI(QDialog):
     def delete_book(self):
         res = False
         book_h = BookHandler(self.login)
-        userID = self.db.get_user_id(self.login)
+        user_id = self.db.get_user_id(self.login)
         self.book = self.books.currentText()
-        self.path = self.db.get_book_path(userID, self.book)
+        self.path = self.db.get_book_path(user_id, self.book)
         res = book_h.del_book(self.path)
         if res:
             self.accept()
@@ -181,21 +272,22 @@ class MainUI(QMainWindow):
         uic.loadUi('UI/main.ui', self)  # Загружаем дизайн
         self.login_form = LoginUI(self.db)
         self.error_dialog = QtWidgets.QErrorMessage()
-        #self.remove_tag_form = RemoveTagUI(self.db, self.user_login, [], [])
-        self.initDeleteBookUI(self.db, self.user_login, [])
+        self.initDeleteBookUI(self.user_login, [])
+        self.initRemoveTagUI(self.user_login, [])
         self.Login.clicked.connect(self.open_login_form)
         self.AddBook.clicked.connect(self.add_book)
         self.AddTag.clicked.connect(self.add_tag)
-        #self.RemoveTag.clicked.connect(self.remove_tag)
-
         self.login_form.accepted.connect(self.update_booklist)
-        #self.remove_tag_form.accepted.connect(self.update_booklist)
 
-    def initDeleteBookUI(self, db, user, books):
-        self.delete_book_form = DeleteBookUI(db, user, books)
+    def initDeleteBookUI(self, user, books):
+        self.delete_book_form = DeleteBookUI(self.db, user, books)
         self.RemoveBook.clicked.connect(self.delete_book)
         self.delete_book_form.accepted.connect(self.update_booklist)
 
+    def initRemoveTagUI(self, login, books):
+        self.remove_tag_form = RemoveTagUI(self.db, login, books)
+        self.RemoveTag.clicked.connect(self.remove_tag)
+        self.remove_tag_form.accepted.connect(self.update_booklist)
 
     def raise_error_dialog(self, msg):
         self.error_dialog.showMessage(msg)
@@ -219,18 +311,17 @@ class MainUI(QMainWindow):
             self.raise_error_dialog('В вашей библиотеке есть данная книга')
         except TypeError:
             self.raise_error_dialog('Формат не поддерживается!')
-        except:
-            pass
 
     def delete_book(self):
         try:
             login = self.get_username()
+            if not login:
+                raise WrongLogin
             books = self.db.get_user_books(login)
-            self.initDeleteBookUI(self.db, login, books)
+            self.initDeleteBookUI(login, books)
             self.delete_book_form.show()
         except WrongLogin:
             self.raise_error_dialog('Вы не вошли в аккаунт!')
-
 
     def add_tag(self):
         self.AddTag_form = CreateTagUI(self.db)
@@ -240,10 +331,15 @@ class MainUI(QMainWindow):
             self.AddTag_form.show()
 
     def remove_tag(self):
-        booklist = self.db.get_user_books(self.user_login)
-        tags = self.db.get_booklist_tags(self.user_login, self.booklist)
-        self.remove_tag_form = RemoveTagUI(self.db, self.user_login, booklist, tags)
-        self.show()
+        try:
+            login = self.get_username()
+            if not login:
+                raise WrongLogin
+            books = self.db.get_user_books(login)
+            self.initRemoveTagUI(login, books)
+            self.remove_tag_form.show()
+        except WrongLogin:
+            self.raise_error_dialog('Вы не вошли в аккаунт!')
 
     def open_login_form(self):
         self.login_form.show()

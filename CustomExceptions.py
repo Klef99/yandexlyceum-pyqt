@@ -28,3 +28,8 @@ class DontLogin(Exception):
 
 class BookExists(Exception):
     pass
+
+
+class NoTags(Exception):
+    pass
+

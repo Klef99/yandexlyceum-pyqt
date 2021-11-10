@@ -4,6 +4,7 @@ import ebookmeta
 from DatabaseHandler import DatabaseHandler
 from CustomExceptions import *
 
+
 class BookHandler:
     def __init__(self, login):
         self.support_format = ['fb2', 'epub', 'pdf']
@@ -48,5 +49,6 @@ class BookHandler:
         self.db.del_book(book_path)
         os.remove(book_path)
         return True
+
 
 tmp = BookHandler('test')
