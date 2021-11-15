@@ -169,9 +169,3 @@ class DatabaseHandler:
         self.set_book_tags(login, book, tags)
         self.cur.execute(f"""UPDATE tags SET {tag} == 1 WHERE bookID == ?""", (book_id,))
         self.connection.commit()
-
-
-tmp = DatabaseHandler('database.db')
-# print(tmp.get_book_tags('test', 'Дюна'))
-# print(tmp.get_booklist_tags('test', ['Дюна', 'Алиса в Стране чудес']))
-# tmp.remove_tag(20, 'child_tale')
