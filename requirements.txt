@@ -1,6 +1,6 @@
 ﻿altgraph==0.17.2
 ebookmeta==0.11.2
-future==0.18.2
+future
 lxml>=4.6.5
 pefile==2021.9.3
 pyinstaller==4.7
