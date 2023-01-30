@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "yandexlyceum-pyqt"
+version = "0.1.0"
+description = ""
+authors = ["Egor Yakovlev <yakovlev.egor.o@gmail.com>"]
+readme = "README.md"
+packages = [{include = "yandexlyceum_pyqt"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+ebookmeta = "^1.2.11"
+pyqt5 = "^5.15.8"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

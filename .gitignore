@@ -142,3 +142,4 @@ cython_debug/
 pyvenv.cfg
 Lib
 Scripts
+yandexlyceum-pyqt.code-workspace
