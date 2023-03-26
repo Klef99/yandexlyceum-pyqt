@@ -409,8 +409,8 @@ class MainUI(QMainWindow):
     def add_book(self):
         try:
             book_path = QFileDialog.getOpenFileName(
-                self, "Выбрать книгу", "",
-                "fb2 (*.fb2);;epub (*.epub);;Все файлы (*)")[0]
+                self, "Выбрать книгу", "", "fb2 (*.fb2);;epub (*.epub);;Все файлы (*)"
+            )[0]
             if book_path == "":
                 raise ValueError
             book = BookHandler(self.get_username())
@@ -491,7 +491,7 @@ class MainUI(QMainWindow):
         except WrongLogin:
             self.raise_error_dialog("Вы не вошли в аккаунт!")
 
-    def open_book(self, ):
+    def open_book(self):
         try:
             login, books = self.check_login_and_get_books()
             if self.get_username() != self.open_book_form.login:
@@ -519,15 +519,19 @@ class MainUI(QMainWindow):
         if self.sort_book_form.get_tag() == "":
             pass
         model = QSqlQueryModel()
-        model.setQuery(f"""SELECT bookName, Author, tag, lang FROM books WHERE
+        model.setQuery(
+            f"""SELECT bookName, Author, tag, lang FROM books WHERE
                            userID == {self.db.get_user_id(self.get_username())} AND
-                           bookID in (SELECT bookID FROM tags WHERE {self.sort_book_form.get_tag()} == 1)""")
+                           bookID in (SELECT bookID FROM tags WHERE {self.sort_book_form.get_tag()} == 1)"""
+        )
         self.BookList.setModel(model)
 
     def update_booklist(self):
         model = QSqlQueryModel()
-        model.setQuery(f"""SELECT bookName, Author, tag, lang FROM books WHERE userID ==
-                            {self.db.get_user_id(self.get_username())}""")
+        model.setQuery(
+            f"""SELECT bookName, Author, tag, lang FROM books WHERE userID ==
+                            {self.db.get_user_id(self.get_username())}"""
+        )
         self.BookList.setModel(model)
 
 

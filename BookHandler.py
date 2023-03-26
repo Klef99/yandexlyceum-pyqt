@@ -41,7 +41,7 @@ class BookHandler:
                 book.description,
                 book.get_tag_string(),
                 book.lang,
-                f"UserBooks/{self.user_login}/{file_name}"
+                f"UserBooks/{self.user_login}/{file_name}",
             )
         shutil.copy(book_path, f"UserBooks/{self.user_login}")
 
