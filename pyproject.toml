@@ -11,7 +11,21 @@ python = "^3.11"
 ebookmeta = "^1.2.11"
 pyqt5 = "^5.15.8"
 
+[tool.poetry.group.dev.dependencies]
+ruff = "==0.0.240"
+pyright = "==1.1.291"
+black = "==23.1.0"
 
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.ruff]
+select = ["F", "E", "W", "C90",
+          "I", "N", "S", "B", "A",
+          "ISC", "T20", "Q", "PTH"]
+
+ignore = ["A003"]
+
+[tool.pyright]
+reportUnnecessaryTypeIgnoreComment="warning"
