@@ -18,9 +18,11 @@ jobs:
       run: |
         pip install pipx
         pipx install poetry
+
     - name: Validate the structure of the pyproject.toml
       run: |
         poetry check
+
     - name: Verify that poetry.lock is consistent with pyproject.toml
       run: |
         poetry lock --check
@@ -28,10 +30,7 @@ jobs:
     - name: Install dependencies
       run: |
         poetry install
-    - name: Check code formatting by black
-      run: |
-        poetry run black . --check
-        
+    
     - name: Lint code by ruff
       run: |
         poetry run ruff .
@@ -39,3 +38,8 @@ jobs:
     - name: Check types by pyright
       run: |
         poetry run pyright
+
+    - name: Check code formatting by black
+      run: |
+        poetry run black . --check
+    
