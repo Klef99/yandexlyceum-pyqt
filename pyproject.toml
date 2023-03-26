@@ -11,9 +11,9 @@ ebookmeta = "^1.2.11"
 pyqt5 = "^5.15.8"
 
 [tool.poetry.group.dev.dependencies]
-ruff = "==0.0.240"
-pyright = "==1.1.291"
-black = "==23.1.0"
+ruff = "^0.0.240"
+pyright = "^1.1.291"
+black = "^23.1.0"
 
 [build-system]
 requires = ["poetry-core"]

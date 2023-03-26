@@ -1,23 +1,23 @@
 import sys
 
+from PyQt5 import QtWidgets, uic
+from PyQt5.QtSql import QSqlQueryModel
+from PyQt5.QtWidgets import QApplication, QDialog, QFileDialog, QMainWindow
+
 from BookHandler import BookHandler
 from CustomExceptions import *
 from DatabaseHandler import DatabaseHandler
-from PyQt5 import uic, QtWidgets
-from PyQt5.QtSql import QSqlQueryModel
-from PyQt5.QtWidgets import QApplication, QFileDialog, QDialog
-from PyQt5.QtWidgets import QMainWindow
 
 
 class LoginUI(QDialog):  # Окно входа в свой аккаунт с библиотекой
     def __init__(self, database):
         super().__init__()
-        self.login = ''
+        self.login = ""
         self.db = database
         self.initUI()
 
     def initUI(self):
-        uic.loadUi('UI/login.ui', self)  # Загружаем дизайн
+        uic.loadUi("UI/login.ui", self)  # Загружаем дизайн
         self.buttonBox.accepted.connect(self.check_login)
         self.buttonBox.rejected.connect(self.form_quit)
         self.reg.clicked.connect(self.open_reg_form)
@@ -29,9 +29,9 @@ class LoginUI(QDialog):  # Окно входа в свой аккаунт с б�
         try:
             res = self.db.check_login(login, password)
         except WrongLogin:
-            self.status.setText('Неправильный логин')
+            self.status.setText("Неправильный логин")
         except WrongPassword:
-            self.status.setText('Неправильный пароль')
+            self.status.setText("Неправильный пароль")
         if res:
             self.login = login
             self.accept()
@@ -54,7 +54,7 @@ class RegistrationUI(QDialog):
         self.initUI()
 
     def initUI(self):
-        uic.loadUi('UI/register.ui', self)  # Загружаем дизайн
+        uic.loadUi("UI/register.ui", self)  # Загружаем дизайн
         self.buttonBox.accepted.connect(self.register)
         self.buttonBox.rejected.connect(self.form_quit)
 
@@ -65,11 +65,11 @@ class RegistrationUI(QDialog):
         try:
             res = self.db.register(login, password)
         except UserExists:
-            self.status.setText('Такой логин уже существует')
+            self.status.setText("Такой логин уже существует")
         except WrongLogin:
-            self.status.setText('Неправильный логин или пароль')
+            self.status.setText("Неправильный логин или пароль")
         except ShortLogin:
-            self.status.setText('Логин меньше 4-х символов')
+            self.status.setText("Логин меньше 4-х символов")
         if res:
             self.accept()
 
@@ -84,7 +84,7 @@ class CreateTagUI(QDialog):
         self.initUI()
 
     def initUI(self):
-        uic.loadUi('UI/createTag.ui', self)  # Загружаем дизайн
+        uic.loadUi("UI/createTag.ui", self)  # Загружаем дизайн
         self.error_dialog = QtWidgets.QErrorMessage()
         self.buttonBox.accepted.connect(self.create_tag)
         self.buttonBox.rejected.connect(self.form_quit)
@@ -94,7 +94,7 @@ class CreateTagUI(QDialog):
 
     def take_tag_name(self):
         name = self.name_text.text()
-        if name == '':
+        if name == "":
             raise WrongTag
         if self.db.check_tag(name):
             raise TagExists
@@ -106,10 +106,10 @@ class CreateTagUI(QDialog):
             self.tag = self.take_tag_name()
             res = self.db.create_tag(self.tag)
         except WrongTag:
-            self.error_dialog.showMessage('Неправильная метка')
+            self.error_dialog.showMessage("Неправильная метка")
             self.error_dialog.exec_()
         except TagExists:
-            self.error_dialog.showMessage('Tакая метка уже есть')
+            self.error_dialog.showMessage("Tакая метка уже есть")
             self.error_dialog.exec_()
         if res:
             self.accept()
@@ -132,8 +132,8 @@ class RemoveTagUI(QDialog):
         return res
 
     def initUI(self):
-        uic.loadUi('UI/readBookForm.ui', self)  # Загружаем дизайн
-        self.window().setWindowTitle('Отвязка метки')
+        uic.loadUi("UI/readBookForm.ui", self)  # Загружаем дизайн
+        self.window().setWindowTitle("Отвязка метки")
         self.BookChose.addItems(self.books_list)
         self.buttonBox.accepted.connect(self.open_two_form)
         self.buttonBox.rejected.connect(self.form_quit)
@@ -172,8 +172,8 @@ class RemoveTagChoseTagUI(QDialog):
         self.initUI()
 
     def initUI(self):
-        uic.loadUi('UI/readTagForm.ui', self)  # Загружаем дизайн
-        self.window().setWindowTitle('Отвязка метки')
+        uic.loadUi("UI/readTagForm.ui", self)  # Загружаем дизайн
+        self.window().setWindowTitle("Отвязка метки")
         self.tag.addItems(self.db.get_book_tags(self.login, self.book))
         self.buttonBox.accepted.connect(self.remove_tag)
         self.buttonBox.rejected.connect(self.form_quit)
@@ -196,8 +196,8 @@ class LinkTagUI(QDialog):
         self.initUI()
 
     def initUI(self):
-        uic.loadUi('UI/readBookForm.ui', self)  # Загружаем дизайн
-        self.window().setWindowTitle('Привязка метки')
+        uic.loadUi("UI/readBookForm.ui", self)  # Загружаем дизайн
+        self.window().setWindowTitle("Привязка метки")
         self.BookChose.addItems(self.books_list)
         self.buttonBox.accepted.connect(self.open_two_form)
         self.buttonBox.rejected.connect(self.form_quit)
@@ -233,8 +233,8 @@ class LinkTagChoseTag(QDialog):
         self.initUI()
 
     def initUI(self):
-        uic.loadUi('UI/readTagForm.ui', self)  # Загружаем дизайн
-        self.window().setWindowTitle('Привязка метки')
+        uic.loadUi("UI/readTagForm.ui", self)  # Загружаем дизайн
+        self.window().setWindowTitle("Привязка метки")
         self.tag.addItems(self.clean_tag_list())
         self.buttonBox.accepted.connect(self.link_tag)
         self.buttonBox.rejected.connect(self.form_quit)
@@ -268,7 +268,7 @@ class DeleteBookUI(QDialog):
         self.initUI()
 
     def initUI(self):
-        uic.loadUi('UI/deleteBook.ui', self)  # Загружаем дизайн
+        uic.loadUi("UI/deleteBook.ui", self)  # Загружаем дизайн
         self.books.addItems(self.book_list)
         self.buttonBox.accepted.connect(self.delete_book)
         self.buttonBox.rejected.connect(self.form_quit)
@@ -296,12 +296,12 @@ class SortBooksUI(QDialog):
         super().__init__()
         self.db = database
         self.login = login
-        self.chose_tag = ''
+        self.chose_tag = ""
         self.initUI()
 
     def initUI(self):
-        uic.loadUi('UI/readTagForm.ui', self)  # Загружаем дизайн
-        self.window().setWindowTitle('Сортировка')
+        uic.loadUi("UI/readTagForm.ui", self)  # Загружаем дизайн
+        self.window().setWindowTitle("Сортировка")
         self.tag.addItems(self.db.get_tags())
         self.buttonBox.accepted.connect(self.sorting)
         self.buttonBox.rejected.connect(self.form_quit)
@@ -330,8 +330,8 @@ class OpenReaderUI(QDialog):
         self.initUI()
 
     def initUI(self):
-        uic.loadUi('UI/readBookForm.ui', self)  # Загружаем дизайн
-        self.window().setWindowTitle('Открытие файла для чтения')
+        uic.loadUi("UI/readBookForm.ui", self)  # Загружаем дизайн
+        self.window().setWindowTitle("Открытие файла для чтения")
         self.BookChose.addItems(self.books)
         self.buttonBox.accepted.connect(self.open_file)
         self.buttonBox.rejected.connect(self.form_quit)
@@ -354,12 +354,12 @@ class OpenReaderUI(QDialog):
 class MainUI(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.db = DatabaseHandler('database.db')
-        self.user_login = ''
+        self.db = DatabaseHandler("database.db")
+        self.user_login = ""
         self.initUI()
 
     def initUI(self):
-        uic.loadUi('UI/main.ui', self)  # Загружаем дизайн
+        uic.loadUi("UI/main.ui", self)  # Загружаем дизайн
         self.error_dialog = QtWidgets.QErrorMessage()
         self.add_tag_form = CreateTagUI(self.db)
         self.initLoginUI()
@@ -409,9 +409,9 @@ class MainUI(QMainWindow):
     def add_book(self):
         try:
             book_path = QFileDialog.getOpenFileName(
-                self, 'Выбрать книгу', '',
-                'fb2 (*.fb2);;epub (*.epub);;Все файлы (*)')[0]
-            if book_path == '':
+                self, "Выбрать книгу", "", "fb2 (*.fb2);;epub (*.epub);;Все файлы (*)"
+            )[0]
+            if book_path == "":
                 raise ValueError
             book = BookHandler(self.get_username())
             book.add_book(book_path)
@@ -419,11 +419,11 @@ class MainUI(QMainWindow):
         except ValueError:
             pass
         except WrongLogin:
-            self.raise_error_dialog('Вы не вошли в аккаунт!')
+            self.raise_error_dialog("Вы не вошли в аккаунт!")
         except BookExists:
-            self.raise_error_dialog('В вашей библиотеке есть данная книга!')
+            self.raise_error_dialog("В вашей библиотеке есть данная книга!")
         except TypeError:
-            self.raise_error_dialog('Формат не поддерживается!')
+            self.raise_error_dialog("Формат не поддерживается!")
 
     def delete_book(self):
         try:
@@ -433,13 +433,13 @@ class MainUI(QMainWindow):
             self.delete_book_form.check_books(books)
             self.delete_book_form.show()
         except WrongLogin:
-            self.raise_error_dialog('Вы не вошли в аккаунт!')
+            self.raise_error_dialog("Вы не вошли в аккаунт!")
         except EmptyLibrary:
-            self.raise_error_dialog('У вас нет книг!')
+            self.raise_error_dialog("У вас нет книг!")
 
     def add_tag(self):
-        if self.get_username() == '':
-            self.raise_error_dialog('Вы не вошли в аккаунт!')
+        if self.get_username() == "":
+            self.raise_error_dialog("Вы не вошли в аккаунт!")
         else:
             self.add_tag_form.show()
 
@@ -451,9 +451,9 @@ class MainUI(QMainWindow):
             self.remove_tag_form.check_books(books)
             self.remove_tag_form.show()
         except WrongLogin:
-            self.raise_error_dialog('Вы не вошли в аккаунт!')
+            self.raise_error_dialog("Вы не вошли в аккаунт!")
         except EmptyLibrary:
-            self.raise_error_dialog('У вас нет книг!')
+            self.raise_error_dialog("У вас нет книг!")
 
     def link_tag(self):
         try:
@@ -463,9 +463,9 @@ class MainUI(QMainWindow):
             self.link_tag_form.check_books(books)
             self.link_tag_form.show()
         except WrongLogin:
-            self.raise_error_dialog('Вы не вошли в аккаунт!')
+            self.raise_error_dialog("Вы не вошли в аккаунт!")
         except EmptyLibrary:
-            self.raise_error_dialog('У вас нет книг!')
+            self.raise_error_dialog("У вас нет книг!")
 
     def sort_book(self):
         try:
@@ -475,13 +475,13 @@ class MainUI(QMainWindow):
             self.sort_book_form.check_books(books)
             self.sort_book_form.show()
         except WrongLogin:
-            self.raise_error_dialog('Вы не вошли в аккаунт!')
+            self.raise_error_dialog("Вы не вошли в аккаунт!")
         except EmptyLibrary:
-            self.raise_error_dialog('У вас нет книг!')
+            self.raise_error_dialog("У вас нет книг!")
 
     def open_login_form(self):
-        self.login_form.login_text.setText('')
-        self.login_form.pass_text.setText('')
+        self.login_form.login_text.setText("")
+        self.login_form.pass_text.setText("")
         self.login_form.show()
 
     def refresh(self):
@@ -489,9 +489,9 @@ class MainUI(QMainWindow):
             self.check_login_and_get_books()
             self.update_booklist()
         except WrongLogin:
-            self.raise_error_dialog('Вы не вошли в аккаунт!')
+            self.raise_error_dialog("Вы не вошли в аккаунт!")
 
-    def open_book(self, ):
+    def open_book(self):
         try:
             login, books = self.check_login_and_get_books()
             if self.get_username() != self.open_book_form.login:
@@ -499,9 +499,9 @@ class MainUI(QMainWindow):
             self.open_book_form.check_books(books)
             self.open_book_form.show()
         except WrongLogin:
-            self.raise_error_dialog('Вы не вошли в аккаунт!')
+            self.raise_error_dialog("Вы не вошли в аккаунт!")
         except EmptyLibrary:
-            self.raise_error_dialog('У вас нет книг!')
+            self.raise_error_dialog("У вас нет книг!")
 
     def check_login_and_get_books(self):
         login = self.get_username()
@@ -511,27 +511,31 @@ class MainUI(QMainWindow):
         return login, books
 
     def get_username(self):
-        if self.login_form.get_login() != '':
+        if self.login_form.get_login() != "":
             self.user_login = self.login_form.get_login()
         return self.user_login
 
     def update_booklist_sort(self):
-        if self.sort_book_form.get_tag() == '':
+        if self.sort_book_form.get_tag() == "":
             pass
         model = QSqlQueryModel()
-        model.setQuery(f"""SELECT bookName, Author, tag, lang FROM books WHERE
+        model.setQuery(
+            f"""SELECT bookName, Author, tag, lang FROM books WHERE
                            userID == {self.db.get_user_id(self.get_username())} AND
-                           bookID in (SELECT bookID FROM tags WHERE {self.sort_book_form.get_tag()} == 1)""")
+                           bookID in (SELECT bookID FROM tags WHERE {self.sort_book_form.get_tag()} == 1)"""
+        )
         self.BookList.setModel(model)
 
     def update_booklist(self):
         model = QSqlQueryModel()
-        model.setQuery(f"""SELECT bookName, Author, tag, lang FROM books WHERE userID ==
-                            {self.db.get_user_id(self.get_username())}""")
+        model.setQuery(
+            f"""SELECT bookName, Author, tag, lang FROM books WHERE userID ==
+                            {self.db.get_user_id(self.get_username())}"""
+        )
         self.BookList.setModel(model)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     app = QApplication(sys.argv)
     ex = MainUI()
     ex.show()

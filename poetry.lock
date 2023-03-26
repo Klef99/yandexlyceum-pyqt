@@ -316,14 +316,14 @@ files = [
 
 [[package]]
 name = "pyright"
-version = "1.1.291"
+version = "1.1.300"
 description = "Command line wrapper for pyright"
 category = "dev"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "pyright-1.1.291-py3-none-any.whl", hash = "sha256:2dbd133ee400e81ff319d0701bc47545a7ab1cd7dcfcf46c7de37d9b0fbbb76f"},
-    {file = "pyright-1.1.291.tar.gz", hash = "sha256:3946f43f1a99f8e438eee1738ad0649d8bd7ac36dded25849245993ab02671bd"},
+    {file = "pyright-1.1.300-py3-none-any.whl", hash = "sha256:2ff0a21337d1d369e930143f1eed61ba4f225f59ae949631f512722bc9e61e4e"},
+    {file = "pyright-1.1.300.tar.gz", hash = "sha256:1874009c372bb2338e0696d99d915a152977e4ecbef02d3e4a3fd700da699993"},
 ]
 
 [package.dependencies]
@@ -379,4 +379,4 @@ testing-integration = ["build[virtualenv]", "filelock (>=3.4.0)", "jaraco.envs (
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "a2e3bbe55747b600f8ee76808d1b691b6a485f227fe5e8e81d27036de8d7c794"
+content-hash = "b91b5c9e03533f482831b43b36d2b4069862a133d3dd45e60aadc258040f0932"

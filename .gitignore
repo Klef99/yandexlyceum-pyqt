@@ -143,3 +143,4 @@ pyvenv.cfg
 Lib
 Scripts
 yandexlyceum-pyqt.code-workspace
+.ruff_cache
