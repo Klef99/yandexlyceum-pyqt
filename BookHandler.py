@@ -1,5 +1,6 @@
 import os
 import shutil
+from pathlib import Path
 
 import ebookmeta
 
@@ -8,7 +9,7 @@ from DatabaseHandler import DatabaseHandler
 
 
 class BookHandler:
-    def __init__(self, login):
+    def __init__(self, login: str) -> None:
         self.support_format = ["fb2", "epub"]
         if login:
             self.user_login = login
@@ -16,20 +17,18 @@ class BookHandler:
             raise Ce.WrongLoginError
         self.db = DatabaseHandler("database.db")
 
-    def book_format_check(self, book_path):
-        book_format = book_path.split(".")[-1]
+    def _book_format_check(self, book_path: Path) -> str:
+        book_format = book_path.suffix[1:]
         if book_format not in self.support_format:
             raise TypeError
         return book_format
 
-    def book_path_check(self, book_path):
-        if not book_path:
+    def add_book(self, book_path: str) -> None:
+        path = Path(book_path)
+        if not path.exists():
             raise ValueError
-
-    def add_book(self, book_path):
-        self.book_path_check(book_path)
-        book_format = self.book_format_check(book_path)
-        file_name = os.path.basename(book_path)
+        book_format = self._book_format_check(path)
+        file_name = path.name
         if book_format == "fb2" or book_format == "epub":
             book = ebookmeta.get_metadata(book_path)
             if self.db.get_book_id(self.db.get_user_id(self.user_login), book.title):
@@ -45,10 +44,12 @@ class BookHandler:
             )
         shutil.copy(book_path, f"UserBooks/{self.user_login}")
 
-    def del_book(self, book_path):
+    def del_book(self, book_path: str) -> bool:
+        path = Path(book_path)
         self.db.del_book(book_path)
-        os.remove(book_path)
+        path.unlink()
         return True
 
-    def open_reader(self, book_path):
-        os.startfile(os.path.abspath(book_path), "open")
+    def open_reader(self, book_path: str) -> None:
+        path = Path(book_path)
+        os.startfile(path.resolve(), "open")
