@@ -1,38 +1,38 @@
-class WrongLogin(Exception):
+class WrongLoginError(Exception):
     pass
 
 
-class WrongPassword(Exception):
+class WrongPasswordError(Exception):
     pass
 
 
-class UserExists(Exception):
+class UserExistsError(Exception):
     pass
 
 
-class ShortLogin(Exception):
+class ShortLoginError(Exception):
     pass
 
 
-class WrongTag(Exception):
+class WrongTagError(Exception):
     pass
 
 
-class TagExists(Exception):
+class TagExistsError(Exception):
     pass
 
 
-class DontLogin(Exception):
+class DontLoginError(Exception):
     pass
 
 
-class BookExists(Exception):
+class BookExistsError(Exception):
     pass
 
 
-class NoTags(Exception):
+class NoTagsError(Exception):
     pass
 
 
-class EmptyLibrary(Exception):
+class EmptyLibraryError(Exception):
     pass

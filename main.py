@@ -4,8 +4,8 @@ from PyQt5 import QtWidgets, uic
 from PyQt5.QtSql import QSqlQueryModel
 from PyQt5.QtWidgets import QApplication, QDialog, QFileDialog, QMainWindow
 
+import CustomExceptions as Ce
 from BookHandler import BookHandler
-from CustomExceptions import *
 from DatabaseHandler import DatabaseHandler
 
 
@@ -28,9 +28,9 @@ class LoginUI(QDialog):  # Окно входа в свой аккаунт с б�
         res = False
         try:
             res = self.db.check_login(login, password)
-        except WrongLogin:
+        except Ce.WrongLoginError:
             self.status.setText("Неправильный логин")
-        except WrongPassword:
+        except Ce.WrongPasswordError:
             self.status.setText("Неправильный пароль")
         if res:
             self.login = login
@@ -64,11 +64,11 @@ class RegistrationUI(QDialog):
         res = False
         try:
             res = self.db.register(login, password)
-        except UserExists:
+        except Ce.UserExistsError:
             self.status.setText("Такой логин уже существует")
-        except WrongLogin:
+        except Ce.WrongLoginError:
             self.status.setText("Неправильный логин или пароль")
-        except ShortLogin:
+        except Ce.ShortLoginError:
             self.status.setText("Логин меньше 4-х символов")
         if res:
             self.accept()
@@ -95,9 +95,9 @@ class CreateTagUI(QDialog):
     def take_tag_name(self):
         name = self.name_text.text()
         if name == "":
-            raise WrongTag
+            raise Ce.WrongTagError
         if self.db.check_tag(name):
-            raise TagExists
+            raise Ce.TagExistsError
         return name
 
     def create_tag(self):
@@ -105,10 +105,10 @@ class CreateTagUI(QDialog):
         try:
             self.tag = self.take_tag_name()
             res = self.db.create_tag(self.tag)
-        except WrongTag:
+        except Ce.WrongTagError:
             self.error_dialog.showMessage("Неправильная метка")
             self.error_dialog.exec_()
-        except TagExists:
+        except Ce.TagExistsError:
             self.error_dialog.showMessage("Tакая метка уже есть")
             self.error_dialog.exec_()
         if res:
@@ -140,7 +140,7 @@ class RemoveTagUI(QDialog):
 
     def check_books(self, books):
         if not books:
-            raise EmptyLibrary
+            raise Ce.EmptyLibraryError
         else:
             self.books_list = self.clean_book_list(books)
 
@@ -211,7 +211,7 @@ class LinkTagUI(QDialog):
 
     def check_books(self, books):
         if not books:
-            raise EmptyLibrary
+            raise Ce.EmptyLibraryError
 
     def open_two_form(self):
         user_id = self.db.get_user_id(self.login)
@@ -278,7 +278,7 @@ class DeleteBookUI(QDialog):
 
     def check_books(self, books):
         if not books:
-            raise EmptyLibrary
+            raise Ce.EmptyLibraryError
 
     def delete_book(self):
         res = False
@@ -311,7 +311,7 @@ class SortBooksUI(QDialog):
 
     def check_books(self, books):
         if not books:
-            raise EmptyLibrary
+            raise Ce.EmptyLibraryError
 
     def sorting(self):
         self.chose_tag = self.tag.currentText()
@@ -341,7 +341,7 @@ class OpenReaderUI(QDialog):
 
     def check_books(self, books):
         if not books:
-            raise EmptyLibrary
+            raise Ce.EmptyLibraryError
 
     def open_file(self):
         self.book = self.BookChose.currentText()
@@ -418,9 +418,9 @@ class MainUI(QMainWindow):
             self.update_booklist()
         except ValueError:
             pass
-        except WrongLogin:
+        except Ce.WrongLoginError:
             self.raise_error_dialog("Вы не вошли в аккаунт!")
-        except BookExists:
+        except Ce.BookExistsError:
             self.raise_error_dialog("В вашей библиотеке есть данная книга!")
         except TypeError:
             self.raise_error_dialog("Формат не поддерживается!")
@@ -432,9 +432,9 @@ class MainUI(QMainWindow):
                 self.initDeleteBookUI(login, books)
             self.delete_book_form.check_books(books)
             self.delete_book_form.show()
-        except WrongLogin:
+        except Ce.WrongLoginError:
             self.raise_error_dialog("Вы не вошли в аккаунт!")
-        except EmptyLibrary:
+        except Ce.EmptyLibraryError:
             self.raise_error_dialog("У вас нет книг!")
 
     def add_tag(self):
@@ -450,9 +450,9 @@ class MainUI(QMainWindow):
                 self.initRemoveTagUI(login, books)
             self.remove_tag_form.check_books(books)
             self.remove_tag_form.show()
-        except WrongLogin:
+        except Ce.WrongLoginError:
             self.raise_error_dialog("Вы не вошли в аккаунт!")
-        except EmptyLibrary:
+        except Ce.EmptyLibraryError:
             self.raise_error_dialog("У вас нет книг!")
 
     def link_tag(self):
@@ -462,9 +462,9 @@ class MainUI(QMainWindow):
                 self.initLinkTagUI(login, books)
             self.link_tag_form.check_books(books)
             self.link_tag_form.show()
-        except WrongLogin:
+        except Ce.WrongLoginError:
             self.raise_error_dialog("Вы не вошли в аккаунт!")
-        except EmptyLibrary:
+        except Ce.EmptyLibraryError:
             self.raise_error_dialog("У вас нет книг!")
 
     def sort_book(self):
@@ -474,9 +474,9 @@ class MainUI(QMainWindow):
                 self.initSortBooksUI(login)
             self.sort_book_form.check_books(books)
             self.sort_book_form.show()
-        except WrongLogin:
+        except Ce.WrongLoginError:
             self.raise_error_dialog("Вы не вошли в аккаунт!")
-        except EmptyLibrary:
+        except Ce.EmptyLibraryError:
             self.raise_error_dialog("У вас нет книг!")
 
     def open_login_form(self):
@@ -488,7 +488,7 @@ class MainUI(QMainWindow):
         try:
             self.check_login_and_get_books()
             self.update_booklist()
-        except WrongLogin:
+        except Ce.WrongLoginError:
             self.raise_error_dialog("Вы не вошли в аккаунт!")
 
     def open_book(self):
@@ -498,15 +498,15 @@ class MainUI(QMainWindow):
                 self.initOpenReaderUI(login, books)
             self.open_book_form.check_books(books)
             self.open_book_form.show()
-        except WrongLogin:
+        except Ce.WrongLoginError:
             self.raise_error_dialog("Вы не вошли в аккаунт!")
-        except EmptyLibrary:
+        except Ce.EmptyLibraryError:
             self.raise_error_dialog("У вас нет книг!")
 
     def check_login_and_get_books(self):
         login = self.get_username()
         if not login:
-            raise WrongLogin
+            raise Ce.WrongLoginError
         books = self.db.get_user_books(login)
         return login, books
 

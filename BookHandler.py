@@ -3,7 +3,7 @@ import shutil
 
 import ebookmeta
 
-from CustomExceptions import *
+import CustomExceptions as Ce
 from DatabaseHandler import DatabaseHandler
 
 
@@ -13,7 +13,7 @@ class BookHandler:
         if login:
             self.user_login = login
         else:
-            raise WrongLogin
+            raise Ce.WrongLoginError
         self.db = DatabaseHandler("database.db")
 
     def book_format_check(self, book_path):
@@ -33,7 +33,7 @@ class BookHandler:
         if book_format == "fb2" or book_format == "epub":
             book = ebookmeta.get_metadata(book_path)
             if self.db.get_book_id(self.db.get_user_id(self.user_login), book.title):
-                raise BookExists
+                raise Ce.BookExistsError
             self.db.add_book(
                 self.db.get_user_id(self.user_login),
                 book.title,

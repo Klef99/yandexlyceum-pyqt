@@ -4,7 +4,7 @@ import sqlite3
 
 from PyQt5.QtSql import QSqlDatabase
 
-from CustomExceptions import *
+import CustomExceptions as Ce
 
 
 class DatabaseHandler:
@@ -45,13 +45,13 @@ class DatabaseHandler:
 
     def check_login(self, login, password):
         if not self.user_in_db(login):
-            raise WrongLogin
+            raise Ce.WrongLoginError
         tmp = self.cur.execute(
             """SELECT passHash, passSalt FROM users WHERE name == ?""", (login,)
         ).fetchall()[0]
         if self.pass_check(password, tmp[0], tmp[1]):
             return True
-        raise WrongPassword
+        raise Ce.WrongPasswordError
 
     def get_user_id(self, username):
         return self.cur.execute(
@@ -84,9 +84,9 @@ class DatabaseHandler:
 
     def register(self, login, password):
         if self.user_in_db(login):
-            raise UserExists
+            raise Ce.UserExistsError
         if len(login) < 4:
-            raise ShortLogin
+            raise Ce.ShortLoginError
         if login and password:
             key, salt = self.pass_to_hash(password)
             self.cur.execute(
@@ -99,7 +99,7 @@ class DatabaseHandler:
             )
             self.connection.commit()
         else:
-            raise WrongLogin
+            raise Ce.WrongLoginError
         os.mkdir(f"UserBooks/{login}")
         return True
 
